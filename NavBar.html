@@ -1,0 +1,92 @@
+<header>
+  <nav class="navbar navbar-expand-md navbar-light fixed-top bg-white">
+    <div class="container-fluid">
+      {% load static %}
+      <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'gasCap/img/logo.png' %}" width="70" height="70" class="d-inline-block align-top" alt="gascap logo"></a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <li class="nav-item">
+            <a aria-current="page" href="{% url 'index' %}" 
+            {% if '/' == request.path %} 
+            class="nav-link active" 
+            {% else %}
+            class = "nav-link" 
+            {% endif %}
+            >Home</a>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              About
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="{% url 'about' %}">Our Story</a></li>
+              <li><a class="dropdown-item" href="{% url 'team' %}">Meet the Team</a></li>
+              <li><a class="dropdown-item" href="{% url 'faq' %}">FAQ's</a></li>
+            </ul>
+          </li>
+
+
+          
+          <li class="nav-item">
+            <a aria-current="page" href="{% url 'contact' %}" 
+            {% if 'contact' in request.path %} 
+            class="nav-link active" 
+            {% else %}
+            class = "nav-link" 
+            {% endif %}
+            >Contact</a>
+          </li>
+
+        </ul>
+
+        <ul class = "navbar-nav ml-auto">
+        {% if user.is_authenticated %}
+        <li 
+        {% if 'dashboard' in request.path %}
+          class = "nav-link active"
+        {% else %}
+          class = "nav-link"
+        {% endif %}
+        >
+        <a class = "nav-link" href = "{% url 'dashboard' %}">
+          Hello {{ user.first_name }} (Dashboard)</a>
+        </li>
+        <li class = "nav-link">
+          <a href = "javascript:{document.getElementById('logout').submit()}" class = "nav-link">
+            <i class = "fas fa-sign-out-alt"></i>Logout
+          </a>
+          <form action = "{% url 'logout' %}" method = "POST" id ="logout">
+            {% csrf_token %}
+            <input type = "hidden">
+          </form>
+        </li>
+        {% else %}
+        <li
+        {% if 'register' in request.path %}
+          class = "nav-link active"
+        {% else %}
+          class = "nav-link"
+        {% endif %}
+        >
+        <a  class = "nav-link" href = "{% url 'register' %}" role = "button" >Sign Up</a>
+        </li>
+        <li
+        {% if 'login' in request.path %}
+          class = "nav-link active"
+        {% else %}
+          class = "nav-link"
+        {% endif %}
+        >
+        <a class = "nav-link" href = "{% url 'login' %}" role = "button">Login</a>
+        </li>
+        {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
